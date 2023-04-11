@@ -107,7 +107,7 @@ In my project folder, I ran ```nano``` and entered the following:
 ```
 DJANGO_DEBUG_FALSE=y
 SITENAME=your_name.bearcornfield.com
-DJANGO_SECRET_KEY=$(python3.7 -c"import random; print(''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50)))")
+DJANGO_SECRET_KEY=$(python3 -c"import random; print(''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50)))")
 ```
 I saved this file as ```.env```.
 
