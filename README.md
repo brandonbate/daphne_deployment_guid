@@ -115,3 +115,42 @@ I then visited my site and confirmed that my game was working.
 When I first attempted this, it was a complete failure. Unbeknownst to me, the order of imports in ```asgi.py``` matters greatly.
 In particular, I needed to put all imports of ```tictactoe``` files/modules must occur AFTER calling ```django_asgi_app = get_asgi_application()```.
 
+### Step 6
+This next step is nearly identical to Step 8 of the prior Deployment Guide.
+On your local machine, open up ```settings.py``` and replace
+```
+## SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'hy=ydw9b6f57nau_#u+%hh4819!lh0my$!ep#hfci=iw#hni(c'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ['*']
+```
+with
+```
+if 'DJANGO_DEBUG_FALSE' in os.environ:
+    DEBUG = False
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+    ALLOWED_HOSTS = [os.environ['SITENAME']]
+else:
+    DEBUG = True
+    SECRET_KEY = 's#x5!*1d^7zlvbuob&=jr7dbwj%+gi+cd0cdbxo83(ls052jor'
+    ALLOWED_HOSTS = []
+```
+Then on your local machine command line, we append ```.gitignore``` with the following command:
+```
+echo .env >> .gitignore
+```
+Commit these changes to your repository and push them to github. Go to your Lightsail console and pull these changes.
+In your project folder run ```nano``` and enter the following:
+```
+DJANGO_DEBUG_FALSE=y
+SITENAME=your_name.bearcornfield.com
+DJANGO_SECRET_KEY=$(python3.7 -c"import random; print(''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50)))")
+```
+Save this file as ```.env```. Then run the following command to run your application by referencing these environmental variables:
+```
+set -a; source .env; set +a
+sudo ./virtualenv/bin/daphne -b 0.0.0.0 -p 80 supertictactoe.asgi:application
+```
