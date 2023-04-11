@@ -175,27 +175,18 @@ Your web game should be running!
 ### Step 7
 
 ```
-[fcgi-program:asgi]
-# TCP socket used by Nginx backend upstream
-socket=tcp://localhost:8000
+[Unit]
+Description=Daphne
+After=network.target
 
-# Directory where your site's project files are located
-directory=~/tictactoe/
+[Service]
+Restart=on-failure
+User=ubuntu
+WorkingDirectory=/home/ubuntu/tictactoe
+EnvironmentFile=/home/ubuntu/tictactoe/.env
+ExecStart=/home/ubuntu/tictactoe/virtualenv/bin/daphne -p 8000 supertictactoe.asgi:application
 
-# Each process needs to have a separate socket file, so we use process_num
-command=daphne -u /run/daphne/daphne%(process_num)d.sock --fd 0 --access-log - --proxy-headers supertictactoe.asgi:application
 
-# Number of processes to startup, roughly the number of CPUs you have
-numprocs=1
-
-# Give each process a unique name so they can be told apart
-process_name=asgi%(process_num)d
-
-# Automatically start and recover processes
-autostart=true
-autorestart=true
-
-# Choose where you want your log to go
-stdout_logfile=~/log/asgi.log
-redirect_stderr=true
+[Install]
+WantedBy=multi-user.target
 ```
