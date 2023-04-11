@@ -74,7 +74,7 @@ In particular, I needed to put all imports of ```tictactoe``` files/modules AFTE
 
 ### Step 5
 This next step is nearly identical to Step 8 of the prior Deployment Guide.
-On your local machine, open up ```settings.py``` and replace
+On my local machine, I opened up ```settings.py``` and replaced
 ```
 ## SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'hy=ydw9b6f57nau_#u+%hh4819!lh0my$!ep#hfci=iw#hni(c'
@@ -86,6 +86,8 @@ ALLOWED_HOSTS = ['*']
 ```
 with
 ```
+import os
+
 if 'DJANGO_DEBUG_FALSE' in os.environ:
     DEBUG = False
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
@@ -95,18 +97,19 @@ else:
     SECRET_KEY = 's#x5!*1d^7zlvbuob&=jr7dbwj%+gi+cd0cdbxo83(ls052jor'
     ALLOWED_HOSTS = []
 ```
-Then on your local machine command line, we append ```.gitignore``` with the following command:
+Then at the local machine command line, I appended ```.gitignore``` with the following command:
 ```
 echo .env >> .gitignore
 ```
-Commit these changes to your repository and push them to github. Go to your Lightsail console and pull these changes.
-In your project folder run ```nano``` and enter the following:
+I committed these changes to the repository and pushed them to GitHub.
+I wen to my Lightsail console and pulled these changes.
+In my project folder, I ran ```nano``` and entered the following:
 ```
 DJANGO_DEBUG_FALSE=y
 SITENAME=your_name.bearcornfield.com
 DJANGO_SECRET_KEY=$(python3.7 -c"import random; print(''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50)))")
 ```
-Save this file as ```.env```.
+I saved this file as ```.env```.
 
 ### Step 6
 Next, I installed nginx:
@@ -151,6 +154,7 @@ server {
 }
 
 ```
+The above configuration file was taken directly from the Channels Tutorial deployment guide.
 I then created a symbolic link in ```sites-enabled```:
 ```
 sudo ln -s sites-available/tictactoe.bearcornfield.com sites-enabled/tictactoe.bearcornfield.com
@@ -164,13 +168,12 @@ I then reloaded nginx:
 ```
 sudo systemctl reload nginx
 ```
-Return to the repository directory.
-Then run the following command to run your application by referencing these environmental variables:
+I then returned to the repository directory and ran the following commands:
 ```
 set -a; source .env; set +a
 ./virtualenv/bin/daphne -b 0.0.0.0 -p 8000 supertictactoe.asgi:application
 ```
-Your web game should be running!
+Tictactoe worked!
 
 ### Step 7
 
