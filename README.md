@@ -1,11 +1,12 @@
-# daphne_deployment_guid
+# Daphne Deployment Guide
 
 I was able to deploy the tictactoe game using a Lightsail instance.
 Unlike prior Lightsail instances, I had this instance use Ubuntu 22.04.
 Here's how I deployed the game:
 
-1) On the AWS console, I opened my Lightsail instance. I clicked on "Networking" tab
-and created a static ip. I then associated this ip address with the ```tictactoe`` subdomain of
+### Step1
+On the AWS console, I opened my Lightsail instance. I clicked on "Networking" tab
+and created a static ip. I then associated this ip address with the ```tictactoe``` subdomain of
 ```bearcornfield.com```. 
 I then clicked the "Connect" tab, scrolled down and clicked to "Download default key".
 I placed this file in my ```WebProgramming``` folder, which contains my various projects.
