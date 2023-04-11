@@ -4,7 +4,7 @@ I was able to deploy the tictactoe game using a Lightsail instance.
 Unlike prior Lightsail instances, I had this instance use Ubuntu 22.04.
 Here's how I deployed the game:
 
-### Step1
+### Step 1
 On the AWS console, I opened my Lightsail instance. I clicked on "Networking" tab
 and created a static ip. I then associated this ip address with the ```tictactoe``` subdomain of
 ```bearcornfield.com```. 
@@ -18,7 +18,8 @@ and navigated to "Connection > SSH > Auth > Credentials" in the menu.
 I then clicked "Browse" for "Private key file for authentication" and selected the ```.ppk``` file I just generated.
 I clicked "session" in the menu and saved this profile. I highly recommend doing this.
 
-2) I clicked the "Open" button on PuTTY and entered the username ```ubuntu```.
+### Step 2
+I clicked the "Open" button on PuTTY and entered the username ```ubuntu```.
 I then ran the following to update the system:
 ```
 sudo apt update
@@ -33,10 +34,11 @@ ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 ```
 I then added the public key (displayed in the terminal) to my GitHub account by clicking
-on my Avatar and selecting "Settings > SSH and GPG keys" and clicking "New SSH key".
+on my Avatar and selecting "Settings > SSH and GPG keys" and clicking the "New SSH key" button.
 I pasted the public key from the terminal in for the key and gave a nice title.
 
-3) Back on PuTTY, I cloned my Github repository:
+### Step 3
+Back on PuTTY, I cloned my Github repository:
 ```
 git clone git@github.com:brandonbate/tictactoe.git
 ```
@@ -52,8 +54,8 @@ pip install "daphne==4.0.0"
 ```
 Redis is automatically added a systemd service, which is nice!
 
-
-4) Next, I installed nginx:
+### Step 4
+Next, I installed nginx:
 ```
 sudo apt install nginx
 ```
@@ -95,12 +97,13 @@ sudo systemctl reload nginx
 ```
 I confirmed nginx was running by visiting ```tictactoe.bearcornfield.com```.
 
-5) I then wanted to get a quick (insecure) version of my site up and running.
+### Step 5
+I then wanted to get a quick (insecure) version of my site up and running.
 I ran
 ```
 sudo nano supertictactoe/settings.py
 ```
-and edited the ```ALLOWED_HOSTS`` list:
+and edited the ```ALLOWED_HOSTS``` list:
 ```
 ALLOWED_HOSTS = ['*']
 ```
