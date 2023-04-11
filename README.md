@@ -70,7 +70,7 @@ sudo ./virtualenv/bin/daphne -b 0.0.0.0 -p 80 supertictactoe.asgi:application
 ```
 I then visited my site and confirmed that my game was working.
 When I first attempted this, it was a complete failure. Unbeknownst to me, the order of imports in ```asgi.py``` matters greatly.
-In particular, I needed to put all imports of ```tictactoe``` files/modules must occur AFTER calling ```django_asgi_app = get_asgi_application()```.
+In particular, I needed to put all imports of ```tictactoe``` files/modules AFTER calling ```django_asgi_app = get_asgi_application()```.
 
 ### Step 5
 This next step is nearly identical to Step 8 of the prior Deployment Guide.
