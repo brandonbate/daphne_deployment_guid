@@ -180,14 +180,13 @@ Your web game should be running!
 socket=tcp://localhost:8000
 
 # Directory where your site's project files are located
-directory=/my/app/path
+directory=~/tictactoe/
 
 # Each process needs to have a separate socket file, so we use process_num
-# Make sure to update "mysite.asgi" to match your project name
-command=daphne -u /run/daphne/daphne%(process_num)d.sock --fd 0 --access-log - --proxy-headers mysite.asgi:application
+command=daphne -u /run/daphne/daphne%(process_num)d.sock --fd 0 --access-log - --proxy-headers supertictactoe.asgi:application
 
 # Number of processes to startup, roughly the number of CPUs you have
-numprocs=4
+numprocs=1
 
 # Give each process a unique name so they can be told apart
 process_name=asgi%(process_num)d
