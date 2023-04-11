@@ -196,6 +196,6 @@ autostart=true
 autorestart=true
 
 # Choose where you want your log to go
-stdout_logfile=/your/log/asgi.log
+stdout_logfile=~/log/asgi.log
 redirect_stderr=true
 ```
