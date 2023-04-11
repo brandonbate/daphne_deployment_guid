@@ -157,7 +157,8 @@ server {
 The above configuration file was taken directly from the Channels Tutorial deployment guide.
 I then created a symbolic link in ```sites-enabled```:
 ```
-sudo ln -s sites-available/tictactoe.bearcornfield.com sites-enabled/tictactoe.bearcornfield.com
+cd sites-enabled
+sudo ln -s sites-available/tictactoe.bearcornfield.com tictactoe.bearcornfield.com
 ```
 I then edited ```nginx.conf```:
 ```
