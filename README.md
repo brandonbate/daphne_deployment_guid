@@ -106,11 +106,7 @@ DJANGO_DEBUG_FALSE=y
 SITENAME=your_name.bearcornfield.com
 DJANGO_SECRET_KEY=$(python3.7 -c"import random; print(''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50)))")
 ```
-Save this file as ```.env```. Then run the following command to run your application by referencing these environmental variables:
-```
-set -a; source .env; set +a
-sudo ./virtualenv/bin/daphne -b 0.0.0.0 -p 80 supertictactoe.asgi:application
-```
+Save this file as ```.env```.
 
 ### Step 6
 Next, I installed nginx:
@@ -130,15 +126,30 @@ sudo nano sites-available/tictactoe.bearcornfield.com
 ```
 and entered the following and saved:
 ```
-server {
-        listen 80;
-        server_name tictactoe.bearcornfield.com;
-
-        location / {
-                proxy_pass http://localhost:8000;
-                proxy_set_header Host $host;
-        }
+upstream channels-backend {
+    server localhost:8000;
 }
+
+server {
+    location / {
+        try_files $uri @proxy_to_app;
+    }
+
+    location @proxy_to_app {
+        proxy_pass http://channels-backend;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+    }
+}
+
 ```
 I then created a symbolic link in ```sites-enabled```:
 ```
@@ -152,6 +163,13 @@ I changed ```user www-data;``` to ```user ubuntu;```.
 I then reloaded nginx:
 ```
 sudo systemctl reload nginx
+```
+### Step 7
+Return to the repository directory.
+Then run the following command to run your application by referencing these environmental variables:
+```
+set -a; source .env; set +a
+./virtualenv/bin/daphne -b 0.0.0.0 -p 8000 supertictactoe.asgi:application
 ```
 I confirmed nginx was running by visiting ```tictactoe.bearcornfield.com```.
 
