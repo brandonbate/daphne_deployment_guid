@@ -174,6 +174,16 @@ Your web game should be running!
 
 ### Step 7
 
+The Channels documentation recommends we use a utility called ```supervisord``` to have Daphne run persistently on the server.
+I'm opting instead to use ```systemd``` (as we did earlier). In our prior deployment, we used unix sockets for nginx and gunicorn
+to communicate with each other. I'm going to be lazy and just use the local port 8000. This can, of course, blow up in your face
+if you allow port 8000 external access.
+
+To configure ```systemd```, I ran
+```
+sudo nano /etc/systemd/system/daphne.service
+```
+I then entered the following and saved:
 ```
 [Unit]
 Description=Daphne
@@ -190,3 +200,11 @@ ExecStart=/home/ubuntu/tictactoe/virtualenv/bin/daphne -p 8000 supertictactoe.as
 [Install]
 WantedBy=multi-user.target
 ```
+I then ran the following commands to get the daphne service running:
+```
+sudo systemctl daemon-reload
+sudo systemctl enable nginx
+sudo systemctl enable daphne
+sudo systemctl start daphne
+```
+Try rebooting the system to confirm your program still runs automatically.
