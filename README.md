@@ -52,7 +52,7 @@ python3 -m venv virtualenv
 pip install "channels-redis==3.4.1"
 pip install "daphne==4.0.0"
 ```
-Redis is automatically added a systemd service, which is nice!
+Redis is automatically added as a systemd service, which is nice!
 
 ### Step 4
 I then wanted to get a quick (insecure) version of my site up and running.
