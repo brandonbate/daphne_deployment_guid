@@ -164,12 +164,14 @@ I then reloaded nginx:
 ```
 sudo systemctl reload nginx
 ```
-### Step 7
 Return to the repository directory.
 Then run the following command to run your application by referencing these environmental variables:
 ```
 set -a; source .env; set +a
 ./virtualenv/bin/daphne -b 0.0.0.0 -p 8000 supertictactoe.asgi:application
 ```
-I confirmed nginx was running by visiting ```tictactoe.bearcornfield.com```.
+Your web game should be running!
+
+### Step 7
+
 
